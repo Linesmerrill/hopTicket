@@ -13,6 +13,14 @@ import (
 	"golang.org/x/image/colornames"
 )
 
+const (
+	rowJsh              = "J--J--J-----|-----|-----S--S--S-----|-----|-----|-----H--H--H"
+	rowDollarS          = "$--$--$-----|-----|-----S--S--S-----|-----|-----|-----|-----|"
+	rowVerticalPipes    = "|     |     |     |     |     |     |     |     |     |     |"
+	edgeVerticalPipes   = "|     |                                               |     |"
+	edgeHorizontalPipes = "|-----|                                               |-----|"
+)
+
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Pixel Rocks!",
@@ -37,7 +45,7 @@ func main() {
 	pos := 0
 	score := 0
 	pixelgl.Run(run)
-	renderGameboard(0)
+	renderGamepad(0)
 	for {
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("Roll Dice? [Y/N]")
@@ -54,7 +62,7 @@ func main() {
 
 		switch pos {
 		case pos:
-			renderGameboard(pos)
+			renderGamepad(pos)
 		}
 		fmt.Println("Total: ", score)
 		fmt.Printf("you rolled: %v\n", diceValue)
@@ -129,20 +137,20 @@ func checkDistribution() {
 	fmt.Println(strings.Repeat("*", newDiceValues.twelve))
 }
 
-func renderGameboard(value int) {
+func renderGamepad(value int) {
 	switch value {
 	case 0:
-		fmt.Println("J--J--J-----|-----|-----S--S--S-----|-----|-----|-----H--H--H")
-		fmt.Println("|     |     |     |     |     |     |     |     |     |     |")
-		fmt.Println("J--J--J-----|-----|-----S--S--S-----|-----|-----|-----H--H--H")
-		fmt.Println("|     |                                               |     |")
-		fmt.Println("|-----|                                               |-----|")
-		fmt.Println("|     |                                               |     |")
-		fmt.Println("|-----|                                               |-----|")
-		fmt.Println("|     |                                               |     |")
-		fmt.Println("$--$--$-----|-----|-----S--S--S-----|-----|-----|-----|-----|")
+		fmt.Println(rowJsh)
+		fmt.Println(rowVerticalPipes)
+		fmt.Println(rowJsh)
+		fmt.Println(edgeVerticalPipes)
+		fmt.Println(edgeHorizontalPipes)
+		fmt.Println(edgeVerticalPipes)
+		fmt.Println(edgeHorizontalPipes)
+		fmt.Println(edgeVerticalPipes)
+		fmt.Println(rowDollarS)
 		fmt.Println("|  X  |     |     |     |     |     |     |     |     |     |")
-		fmt.Println("$--$--$-----|-----|-----S--S--S-----|-----|-----|-----|-----|")
+		fmt.Println(rowDollarS)
 	case 1:
 		fmt.Println("J--J--J-----|-----|-----S--S--S-----|-----|-----|-----H--H--H")
 		fmt.Println("|     |     |     |     |     |     |     |     |     |     |")
