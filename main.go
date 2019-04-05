@@ -7,19 +7,42 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/pixelgl"
+	"golang.org/x/image/colornames"
 )
+
+func run() {
+	cfg := pixelgl.WindowConfig{
+		Title:  "Pixel Rocks!",
+		Bounds: pixel.R(0, 0, 1024, 768),
+		VSync:  true,
+	}
+	win, err := pixelgl.NewWindow(cfg)
+	if err != nil {
+		panic(err)
+	}
+
+	win.Clear(colornames.Skyblue)
+
+	for !win.Closed() {
+		win.Update()
+
+	}
+}
 
 func main() {
 	// checkDistribution()
 	pos := 0
 	score := 0
+	pixelgl.Run(run)
 	renderGameboard(0)
 	for {
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("Roll Dice? [Y/N]")
 		text, _ := reader.ReadString('\n')
 		if strings.TrimSpace(strings.ToUpper(text)) != "Y" {
-			fmt.Println("text: ", text)
 			fmt.Println("Thanks for playing!")
 			fmt.Println("Your final score is: ", score)
 			return
@@ -33,7 +56,7 @@ func main() {
 		case pos:
 			renderGameboard(pos)
 		}
-		fmt.Println("pos: ", pos)
+		fmt.Println("Total: ", score)
 		fmt.Printf("you rolled: %v\n", diceValue)
 	}
 }
